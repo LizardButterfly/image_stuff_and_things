@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express")
 const multer = require('multer')
 const fs = require('fs')
+const path = require("path")
 
 const database = require('./database')
 
@@ -10,16 +11,14 @@ const app = express()
 
 const upload = multer({ dest: 'images/' })
 
+app.use(express.static(path.join(__dirname, "build")))
 
-app.get("/", (req, res) => {
-    res.send("D:")
-})
 
 app.get("/api/images", async (req, res) => {
 
     const images = await database.getImages()
     res.send({images})
-    
+
 })
 
 app.get('/images/:imageName', (req, res) => {
